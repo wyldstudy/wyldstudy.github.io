@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>git stash命令 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前一段时间开始开发数据库连不上，所以所有的调试都是用本地数据库，这样每次调试都要修改application文件，并且push到远程时，要保持此文件不被修改，还要讲本地的application文件和master分支上的进行checkout，很不方便,所以问了身边同事怎么解决，发现可以用git stash。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git stash命令">
+<meta property="og:url" content="http://yoursite.com/2016/10/11/git-stash命令/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前一段时间开始开发数据库连不上，所以所有的调试都是用本地数据库，这样每次调试都要修改application文件，并且push到远程时，要保持此文件不被修改，还要讲本地的application文件和master分支上的进行checkout，很不方便,所以问了身边同事怎么解决，发现可以用git stash。">
+<meta property="og:image" content="http://yoursite.com/img/git stash -1.png">
+<meta property="og:image" content="http://yoursite.com/img/git stash -2.png">
+<meta property="og:image" content="http://yoursite.com/img/git stash -3.png">
+<meta property="og:image" content="http://yoursite.com/img/git stash -4.png">
+<meta property="og:image" content="http://yoursite.com/img/git stash -5.png">
+<meta property="og:image" content="http://yoursite.com/img/git stash -6.png">
+<meta property="og:updated_time" content="2017-02-05T15:39:45.008Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="git stash命令">
+<meta name="twitter:description" content="前一段时间开始开发数据库连不上，所以所有的调试都是用本地数据库，这样每次调试都要修改application文件，并且push到远程时，要保持此文件不被修改，还要讲本地的application文件和master分支上的进行checkout，很不方便,所以问了身边同事怎么解决，发现可以用git stash。">
+<meta name="twitter:image" content="http://yoursite.com/img/git stash -1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/weny.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/me.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/life">生活</a></li>
+	        
+				<li><a href="/tags/work">工作</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="#" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">John Doe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/me.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">John Doe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/life">生活</a></li>
+		        
+					<li><a href="/tags/work">工作</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-git-stash命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      git stash命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前一段时间开始开发数据库连不上，所以所有的调试都是用本地数据库，这样每次调试都要修改application文件，并且push到远程时，要保持此文件不被修改，还要讲本地的application文件和master分支上的进行checkout，很不方便,所以问了身边同事怎么解决，发现可以用git stash。<br><a id="more"></a><br>首先git stash是将现在修改的文件放入堆栈中，最主要的应用是当我们在一个分支上进行开发，当我们在这个分支上的开发还没有完成时需要切换到其他的分支进行开发，所以我们需要将现在的分支暂时保存，我一般会先进行一次commit操作，所以在自己提交的分支上会有很多无意义的提交。解决上述问题：<br>1.在mater分支上新开一个分wy_application并切换。</p>
+<p>2.将application文件的开发数据库设为本地的。（除此之外不要做任何修改）</p>
+<p>3.将现在的修改放入堆栈:git  stash。但考虑到我之后的开发可能会有其他的东西继续放入堆栈，如果我的堆栈中有很多东西，到时候就不知道取那一个了，所以给这次的东西打上标签 ，执行：git stash save db</p>
+<p><img src="/img/git stash -1.png"></p>
+<p>显示我们修改的东西已经放入堆栈，并且当前分支没有任何修改。</p>
+<p>4.执行：git stash list查看现在堆栈区的内容：</p>
+<p><img src="/img/git stash -2.png"></p>
+<p>可见现在堆栈区只有此存入，标签为db。</p>
+<p>5.假设现在我需要在wy_growth分支上进行开发，那么切换到wy_growth分支，先用第四步的git stash list查看：</p>
+<p><img src="/img/git stash -3.png"></p>
+<p>从标签来看，stash@{1}是对应的数据库修改的内容，所以可以取出内容。取出内容有两种方法：一：git stash pop stash@{1} 指的是出栈，但一旦出栈，在栈中就不存在了。二：git stash apply stash@{1} 只是取出内容，在堆栈中还会存在。对于我的需求当然是使用第二种方法</p>
+<p><img src="/img/git stash -4.png"></p>
+<p>此时，此分支的状态</p>
+<p><img src="/img/git stash -5.png"></p>
+<p>堆栈区状态：</p>
+<p><img src="/img/git stash -6.png"></p>
+<p>可见db的修改依然在堆栈区，下次还可以继续使用，对应的分支上也有了要修改的内容。</p>
+<ol>
+<li>最后当分支需要提交时，可以选择此文件不add，或是使用master上的文件checkout。</li>
+</ol>
+<p>总结：git stash 命令虽然方便，但如果多次调用，那么不同的修改在何时出栈，在那个分支出栈要很清楚，所以添加标签就显得非常重要。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/11/git-stash命令/" class="archive-article-date">
+  	<time datetime="2016-10-11T14:57:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/work/">work</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/10/27/进程与线程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          进程与线程
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="git-stash命令" data-title="git stash命令" data-url="http://yoursite.com/2016/10/11/git-stash命令/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 John Doe
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/java集合/" style="font-size: 10px;">java集合</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/work/" style="font-size: 20px;">work</a> <a href="/tags/操作系统/" style="font-size: 10px;">操作系统</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://coderec.cn/">友情链接</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">爱哭也爱笑&lt;/br&gt;爱生活也爱工作&lt;/br&gt;&lt;/br&gt;喜欢技术&lt;br&gt;想要到达现在能力所不能到达的远方&lt;br&gt;想要触碰更多未知的可能</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

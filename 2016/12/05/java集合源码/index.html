@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>java集合 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="由于在平时经常用到java的集合类，所以我决定把这次的东西记录下来，顺便研读一下集合类的源码（虽然网上已经有很多了）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java集合">
+<meta property="og:url" content="http://yoursite.com/2016/12/05/java集合源码/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="由于在平时经常用到java的集合类，所以我决定把这次的东西记录下来，顺便研读一下集合类的源码（虽然网上已经有很多了）">
+<meta property="og:image" content="http://yoursite.com/img/java.jpg">
+<meta property="og:image" content="http://yoursite.com/img/java集合类.png">
+<meta property="og:updated_time" content="2017-02-05T15:38:06.475Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java集合">
+<meta name="twitter:description" content="由于在平时经常用到java的集合类，所以我决定把这次的东西记录下来，顺便研读一下集合类的源码（虽然网上已经有很多了）">
+<meta name="twitter:image" content="http://yoursite.com/img/java.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/weny.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/me.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/life">生活</a></li>
+	        
+				<li><a href="/tags/work">工作</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="#" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">John Doe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/me.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">John Doe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/life">生活</a></li>
+		        
+					<li><a href="/tags/work">工作</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-java集合源码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java集合
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/img/java.jpg" height="300px" width="700px" style="margin:0px outo; "><br>由于在平时经常用到java的集合类，所以我决定把这次的东西记录下来，顺便研读一下集合类的源码（虽然网上已经有很多了）<br>  <a id="more"></a></p>
+<p>java的集合类可以说是在我的生活和工作中用的最多，也是最早看源码的集合类。其中很重要要的就是hashCode和equals，所以在我们使用集合类的很多属性时都要先重写hashCode和equals。但前几天在工作中发现，重写的hashCode有问题，但在使用ArrayList的contains时却没有报错。</p>
+<p>所以可见在调用ArrayList的contains的方法时并没有调用hashCode，跟踪源码可见：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">    * Returns &lt;tt&gt;true&lt;/tt&gt; if this list contains the specified element.</div><div class="line">    * More formally, returns &lt;tt&gt;true&lt;/tt&gt; if and only if this list contains</div><div class="line">    * at least one element &lt;tt&gt;e&lt;/tt&gt; such that</div><div class="line">    * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;e==null&amp;nbsp;:&amp;nbsp;o.equals(e))&lt;/tt&gt;.</div><div class="line">    *</div><div class="line">    * @param o element whose presence in this list is to be tested</div><div class="line">    * @return &lt;tt&gt;true&lt;/tt&gt; if this list contains the specified element</div><div class="line">    */</div><div class="line">   public boolean contains(Object o) &#123;</div><div class="line">       return indexOf(o) &gt;= 0;</div><div class="line">   &#125;</div><div class="line">    /**</div><div class="line">    * Returns the index of the first occurrence of the specified element</div><div class="line">    * in this list, or -1 if this list does not contain the element.</div><div class="line">    * More formally, returns the lowest index &lt;tt&gt;i&lt;/tt&gt; such that</div><div class="line">    * &lt;tt&gt;(o==null&amp;nbsp;?&amp;nbsp;get(i)==null&amp;nbsp;:&amp;nbsp;o.equals(get(i)))&lt;/tt&gt;,</div><div class="line">    * or -1 if there is no such index.</div><div class="line">    */</div><div class="line">   public int indexOf(Object o) &#123;</div><div class="line">       if (o == null) &#123;</div><div class="line">           for (int i = 0; i &lt; size; i++)</div><div class="line">               if (elementData[i]==null)</div><div class="line">                   return i;</div><div class="line">       &#125; else &#123;</div><div class="line">           for (int i = 0; i &lt; size; i++)</div><div class="line">               if (o.equals(elementData[i]))</div><div class="line">                   return i;</div><div class="line">       &#125;</div><div class="line">       return -1;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>所以，ArrayList的contains的方法时并没有调用hashCode。</p>
+<p>但这并不是说写代码的时候可以只重写equals，在平时的编程中还是要养成良好的编码规范。在重写equals的时候同事重写hashCode。并且遵循Java语言规范要求equals方法具有以下特性：<br>&nbsp; &nbsp;&nbsp; &nbsp; 自反性：对于任何非空引用x，x.equals(x)返回true；<br>&nbsp; &nbsp;&nbsp; &nbsp; 对称性：对于任何引用x和y，如果y.equals(x)返回true，x.equals(y)也应该返回true；<br>&nbsp; &nbsp;&nbsp; &nbsp;传递性：对于任何引用x，y，和z，如果x.equals(y)返回true，y.equals(z)返回true，x.equals(z)也应该返回true。<br>&nbsp; &nbsp;&nbsp; &nbsp; 一致性：如果x和y引用对象没有发生变化，x.equals(y)应该返回同样结果。<br>&nbsp; &nbsp;&nbsp; &nbsp;任意非空引用x，x.equals(null)返回false。<br>在上述问题中，如果将list换成set则会有不同的结果。所以在平时使用非常频繁的东西，有时有些东西了解的也不是很透彻，还是好好梳理一下java的集合类。</p>
+<h3>java常用集合类关系</h3>
+
+<p><img src="/img/java集合类.png"></p>
+<p>List集合：<br>有序可重复，线性，无固定大小。<br>LinkedList底层实现是链表，对于频繁的插入删除效率好一些。<br>ArrayList底层实现是数组，读取效率高。<br>Vector的底层实现和ArrayList一样，只是vector是线程同步的，所以它也是线程安全的，而arraylist是线程异步的，是不安全的。如果不考虑到线程的安全因素，一般用arraylist效率比较高。</p>
+<p>Set集合：<br>无序不可重复，长度可变。<br>HashSet是不可排序的。<br>TreeSet可实现caparable接口，实现对对象的排序。</p>
+<p>Map：<br>存放键值对，无序，Key值不可重复。<br>Hashtable是线程安全的，也就是说是同步的，而HashMap是线程序不安全的，不是同步的。</p>
+<p>先记录到这里，没有什么很深的东西，但有时还是会有遗忘。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/05/java集合源码/" class="archive-article-date">
+  	<time datetime="2016-12-05T12:56:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java集合/">java集合</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/work/">work</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/01/25/我的2016/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          我的2016
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/19/java多线程相关总结/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java多线程相关总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="java集合源码" data-title="java集合" data-url="http://yoursite.com/2016/12/05/java集合源码/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 John Doe
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/java集合/" style="font-size: 10px;">java集合</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/work/" style="font-size: 20px;">work</a> <a href="/tags/操作系统/" style="font-size: 10px;">操作系统</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://coderec.cn/">友情链接</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">爱哭也爱笑&lt;/br&gt;爱生活也爱工作&lt;/br&gt;&lt;/br&gt;喜欢技术&lt;br&gt;想要到达现在能力所不能到达的远方&lt;br&gt;想要触碰更多未知的可能</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
